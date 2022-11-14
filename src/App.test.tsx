@@ -1,9 +1,19 @@
-import React from 'react';
+import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
-import App from './App';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+import ImageModal from './components/ImageModal';
+
+test('opens image modal', async () => {
+  const props = {
+    images: ['img1', 'img2'],
+    updateImages: () => {},
+  };
+
+  render(<ImageModal {...props} />);
+
+  expect(await screen.findByText('See 2 Images')).toBeInTheDocument();
+
+  userEvent.click(await screen.findByText('See 2 Images'));
+
+  expect(await screen.findByText('Generate')).toBeInTheDocument();
 });
